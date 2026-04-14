@@ -1,0 +1,11 @@
+ # Minimal Jekyll config to disable Primer theme and SCSS processing for static HTML site
+theme: null
+exclude:
+  - css/
+  - js/
+  - images/
+  - assets/
+exclude_proc: true
+sass:
+  style: compressed
+

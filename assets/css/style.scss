@@ -1,0 +1,11 @@
+/*
+Minimal SCSS to satisfy Jekyll converter on GitHub Pages.
+Imports existing CSS files - outputs identical styles to _site/assets/css/style.css
+*/
+
+/* Import main stylesheets from root css/ */
+@import "../../../../css/style.css";
+@import "../../../../css/animations.css";
+@import "../../../../css/responsive.css";
+
+/* No additional SCSS needed - pure pass-through */

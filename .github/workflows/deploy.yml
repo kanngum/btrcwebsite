@@ -32,7 +32,7 @@ jobs:
           script: |
             set -e   # Stop on any error (SOP §5.3)
 
-            cd ~/btrcwebsite
+            cd ~/btrc_app
 
             # Force-align server with GitHub (discards any server-side drift)
             git fetch origin

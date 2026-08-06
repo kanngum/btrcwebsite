@@ -1,0 +1,44 @@
+# =============================================================
+# Repository-root Apache config — SAFETY NET ONLY
+#
+# The intended setup (Uni B Agency SOP §4.1) is for the subdomain's
+# Document Root to point at:
+#     /home/<cpanel-user>/btrc_app/public
+#
+# When that is configured, this file sits ABOVE the document root and
+# Apache never reads it. It matters only in the interim case where the
+# Document Root is still the repository root (/home/<user>/btrc_app).
+#
+# In that case it does two things:
+#   1. Transparently serves the site out of public/, so the site keeps
+#      working after the restructure.
+#   2. Denies access to .git and other dotfiles, which would otherwise
+#      be readable over the web — the exact exposure §4.1 warns about.
+#
+# Repointing the Document Root to public/ remains the correct fix. This
+# file is a seatbelt, not a substitute.
+# =============================================================
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Already inside public/ — stop, otherwise the next rule loops.
+    RewriteRule ^public/ - [L]
+
+    # Everything else is served from public/.
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Never serve version control metadata or dotfiles.
+RedirectMatch 404 /\.git
+RedirectMatch 404 /\.github
+
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(env|ini|log|sh|sql|yml|yaml|md)$">
+    Require all denied
+</FilesMatch>

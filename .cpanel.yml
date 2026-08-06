@@ -6,8 +6,8 @@
 # the "Deploy HEAD Commit" button stays greyed out (SOP §13).
 #
 # NOTE ON STRATEGY:
-# The domain's Document Root points directly at
-#   /home/<CPANEL_USER>/btrcwebsite/public
+# The subdomain's Document Root should point at
+#   /home/<CPANEL_USER>/btrc_app/public
 # so the cloned repository IS the served site. There is no copy step
 # and therefore no chance of the served files drifting from git.
 #
@@ -16,7 +16,7 @@
 # =============================================================
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/<CPANEL_USER>/btrcwebsite
+    - export DEPLOYPATH=/home/<CPANEL_USER>/btrc_app
     # Directories readable by the web server, files not world-writable.
     - /bin/find $DEPLOYPATH/public -type d -exec chmod 755 {} \;
     - /bin/find $DEPLOYPATH/public -type f -exec chmod 644 {} \;

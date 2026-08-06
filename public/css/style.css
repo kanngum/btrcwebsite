@@ -203,8 +203,9 @@ ul {
 }
 
 .navbar-logo img {
-    width: 40px;
+    width: auto;
     height: 40px;
+    object-fit: contain;
 }
 
 .navbar-logo span {
@@ -547,7 +548,11 @@ ul {
 .research-icon svg {
     width: 30px;
     height: 30px;
-    fill: var(--secondary);
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .research-card h3 {
@@ -571,7 +576,11 @@ ul {
 .research-link svg {
     width: 16px;
     height: 16px;
-    fill: currentColor;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     transition: var(--transition-base);
 }
 
@@ -724,7 +733,11 @@ ul {
 .slider-arrow svg {
     width: 20px;
     height: 20px;
-    fill: var(--secondary);
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .slider-arrow.prev {
@@ -810,7 +823,11 @@ ul {
 .program-meta svg {
     width: 16px;
     height: 16px;
-    fill: currentColor;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 /* ================================================
@@ -954,7 +971,11 @@ ul {
 .footer-social svg {
     width: 18px;
     height: 18px;
-    fill: var(--secondary);
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .footer-column h4 {
@@ -1039,7 +1060,11 @@ ul {
 .newsletter-form button svg {
     width: 18px;
     height: 18px;
-    fill: var(--secondary);
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .footer-bottom {
@@ -1201,7 +1226,11 @@ ul {
 .mv-icon svg {
     width: 32px;
     height: 32px;
-    fill: var(--secondary);
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .mv-card h3 {
@@ -1567,7 +1596,11 @@ ul {
 .dashboard-icon svg {
     width: 28px;
     height: 28px;
-    fill: var(--secondary);
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .dashboard-card h3 {
@@ -1715,7 +1748,11 @@ ul {
 .program-features li svg {
     width: 16px;
     height: 16px;
-    fill: var(--accent);
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 /* ================================================
@@ -1795,7 +1832,11 @@ ul {
 .post-meta svg {
     width: 14px;
     height: 14px;
-    fill: currentColor;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .post-content h3 {
@@ -1906,7 +1947,11 @@ ul {
 .contact-icon svg {
     width: 22px;
     height: 22px;
-    fill: var(--accent);
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .contact-item h4 {
@@ -2099,4 +2144,112 @@ ul {
 .reveal-right.active {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* ================================================
+   MEDIA CONTAINERS
+   Images dropped into the fixed-height card frames had no sizing
+   rules, so they overflowed their container or were cropped at
+   whatever intrinsic size they happened to be. Pin them to the
+   frame and let object-fit do the cropping.
+   ================================================ */
+.hero-image-placeholder,
+.project-slide-image,
+.program-image,
+.program-detail-image,
+.news-image,
+.post-image,
+.project-image,
+.research-category-image,
+.map-placeholder,
+.about-image,
+.founder-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-image-placeholder > img,
+.project-slide-image > img,
+.program-image > img,
+.program-detail-image > img,
+.news-image > img,
+.post-image > img,
+.project-image > img,
+.research-category-image > img,
+.map-placeholder > img,
+.about-image > img,
+.founder-image > img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Portraits and logo marks should not be cropped through the face. */
+.founder-image > img {
+    object-fit: cover;
+    object-position: center top;
+}
+
+.about-image > img {
+    object-fit: contain;
+    padding: var(--spacing-xl);
+}
+
+/* The decorative pulsing rings exist to dress up an empty frame.
+   Once a real image is in there they just sit on top of it. */
+.hero-image-placeholder:has(img)::before,
+.hero-image-placeholder:has(img)::after,
+.map-placeholder:has(img)::before {
+    display: none;
+}
+
+/* Keep the footer logo mark legible on the dark background. */
+.footer-logo img {
+    width: auto;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* The social icons are styled for the dark footer: white strokes on a
+   barely-there white tile. Reused on the light contact page they were
+   effectively invisible. Give that instance its own colours. */
+.contact-social .footer-social a {
+    background: var(--neutral);
+}
+
+.contact-social .footer-social svg {
+    stroke: var(--text-dark);
+}
+
+.contact-social .footer-social a:hover svg {
+    stroke: var(--secondary);
+}
+
+/* The IoT illustration is a line-art SVG; cropping it to fill looks
+   broken, so let it sit inside its frame instead. */
+.research-category-image > img[src$=".svg"] {
+    object-fit: contain;
+    padding: var(--spacing-lg);
+}
+
+/* Placeholder frames with no image still show a caption; make it
+   read as a deliberate label rather than a missing asset. */
+.map-placeholder span,
+.founder-image .placeholder-initials {
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
+
+.founder-image .placeholder-initials {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.65);
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
 }

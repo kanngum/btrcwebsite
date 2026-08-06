@@ -61,15 +61,7 @@ function initNavigation() {
     }
     
     // Set active link based on current page
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.navbar-menu a');
-    
-    navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPage || (currentPage === '' && href === 'index.html')) {
-            link.classList.add('active');
-        }
-    });
+    setActiveLink();
 }
 
 /* ================================================
@@ -537,19 +529,23 @@ document.addEventListener('DOMContentLoaded', initProgressBars);
    MOBILE MENU ACTIVE LINK
    ================================================ */
 function setActiveLink() {
-    const currentPath = window.location.pathname;
-    const pageName = currentPath.split('/').pop() || 'index.html';
-    
-    const navLinks = document.querySelectorAll('.navbar-menu a');
-    
-    navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        
-        if (href === pageName || (pageName === '' && href === 'index.html')) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
+    // Reduce both the current URL and each href to a bare page name, so the
+    // comparison still works when the server serves extensionless URLs
+    // (/about) or a directory index (/ and /index.html are the same page).
+    const toPageName = (value) => {
+        const last = (value || '').split('/').pop().split('?')[0].split('#')[0];
+        return last ? last.replace(/\.html$/i, '').toLowerCase() : 'index';
+    };
+
+    const currentPage = toPageName(window.location.pathname);
+
+    document.querySelectorAll('.navbar-menu a').forEach(link => {
+        const href = link.getAttribute('href') || '';
+
+        // Leave anchors and outbound links alone.
+        if (href.startsWith('#') || /^[a-z][a-z0-9+.-]*:/i.test(href)) return;
+
+        link.classList.toggle('active', toPageName(href) === currentPage);
     });
 }
 

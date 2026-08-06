@@ -103,11 +103,16 @@ Merging to `main` triggers `.github/workflows/deploy.yml`, which SSHes into the
 cPanel server and runs:
 
 ```bash
-cd ~/btrcwebsite
+cd ~/btrc_app
 git fetch origin
 git reset --hard origin/main   # server is forced to match GitHub exactly
 git clean -fd
 ```
+
+> **Document Root must be `/home/<cpanel-user>/btrc_app/public`** — not the
+> repository root. Pointing it at the repository root exposes `.git` and the
+> deployment config to the web (SOP §4.1). A root `.htaccess` is committed as a
+> temporary safety net, but repointing the Document Root is the actual fix.
 
 The server is **read-only**. Never edit files there via File Manager, FTP, or
 `nano` — the next deploy discards those edits, and there is no record of them.

@@ -1,0 +1,37 @@
+# Normalise line endings so that files written on Windows still work on the
+# Linux cPanel server. Apache and bash both misbehave when handed CRLF.
+
+* text=auto eol=lf
+
+# Server- and pipeline-critical files: always LF, no exceptions.
+.htaccess       text eol=lf
+*.htaccess      text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+*.sh            text eol=lf
+.cpanel.yml     text eol=lf
+.env.example    text eol=lf
+
+# Web sources
+*.html          text eol=lf
+*.css           text eol=lf
+*.scss          text eol=lf
+*.js            text eol=lf
+*.json          text eol=lf
+*.php           text eol=lf
+*.md            text eol=lf
+
+# Binary assets — never touch these
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.webp          binary
+*.ico           binary
+*.pdf           binary
+*.woff          binary
+*.woff2         binary
+*.ttf           binary
+*.eot           binary
+*.mp4           binary
+*.zip           binary

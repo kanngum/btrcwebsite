@@ -1,0 +1,54 @@
+# =============================================================
+# BTRC Website — .gitignore
+# Follows the Uni B Agency CI/CD SOP (§3.3 Standard .gitignore)
+# Laravel entries are included ahead of the planned migration;
+# they are harmless while this is a static site.
+# =============================================================
+
+# Secrets -- never commit these
+.env
+.env.*
+!.env.example
+
+# Dependencies -- installed on deploy
+/vendor
+/node_modules
+
+# Laravel runtime files
+/bootstrap/cache/*
+/storage/*.key
+/storage/installed
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+
+# Build output (when a bundler is introduced)
+/public/build
+/public/hot
+/public/storage
+/public/mix-manifest.json
+
+# Server-specific files -- never commit these
+/cgi-bin/
+error_log
+*.sql
+*.sql.gz
+/public/user-uploads/*
+!public/user-uploads/.htaccess
+
+# Local dev tools
+/.cursor/
+/.idea/
+/.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temp
+*.log
+npm-debug.log*
+yarn-error.log
+/.phpunit.cache
+.phpunit.result.cache

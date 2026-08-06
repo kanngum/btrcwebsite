@@ -1,0 +1,71 @@
+name: CI
+
+# Uni B Agency CI/CD SOP §2 — branch protection on `main` and `develop`
+# requires status checks to pass. This workflow provides those checks.
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [develop]
+
+jobs:
+  validate:
+    name: Validate static site
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for committed secrets
+        run: |
+          set -e
+          if git ls-files | grep -E '(^|/)\.env$|\.env\.(local|production)$|\.sql$|\.pem$'; then
+            echo "::error::Secret or database dump committed — forbidden by SOP §12."
+            exit 1
+          fi
+          echo "No secret files committed."
+
+      - name: Check for broken local asset links
+        run: |
+          python3 - <<'PY'
+          import pathlib, re, sys
+          from urllib.parse import unquote, urlparse
+
+          root = pathlib.Path("public")
+          pattern = re.compile(r'(?:href|src)\s*=\s*["\']([^"\']+)["\']', re.I)
+          broken = []
+
+          for page in sorted(root.rglob("*.html")):
+              for raw in pattern.findall(page.read_text(encoding="utf-8", errors="ignore")):
+                  link = raw.strip()
+                  # Skip external, anchors, and non-file schemes
+                  if not link or link.startswith(("#", "//", "data:")):
+                      continue
+                  if urlparse(link).scheme:
+                      continue
+                  target = unquote(link.split("#")[0].split("?")[0])
+                  if not target:
+                      continue
+                  base = root if target.startswith("/") else page.parent
+                  resolved = (base / target.lstrip("/")).resolve()
+                  if not resolved.exists():
+                      broken.append(f"{page}: {link}")
+
+          if broken:
+              print(f"::error::{len(broken)} broken local link(s):")
+              for b in broken:
+                  print(f"  {b}")
+              sys.exit(1)
+          print("All local links resolve.")
+          PY
+
+      - name: Check every page has a title and lang attribute
+        run: |
+          set -e
+          fail=0
+          for f in public/*.html; do
+            grep -qi '<title>[^<]\+</title>' "$f" || { echo "::error file=$f::Missing <title>"; fail=1; }
+            grep -qi '<html[^>]*lang=' "$f" || { echo "::error file=$f::Missing lang attribute on <html>"; fail=1; }
+          done
+          exit $fail

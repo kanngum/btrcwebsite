@@ -1,0 +1,31 @@
+---
+# =============================================================
+# cPanel deployment tasks (Uni B Agency CI/CD SOP §3.2)
+#
+# This file is required by cPanel's Git Version Control. Without it
+# the "Deploy HEAD Commit" button stays greyed out (SOP §13).
+#
+# NOTE ON STRATEGY:
+# The domain's Document Root points directly at
+#   /home/<CPANEL_USER>/btrcwebsite/public
+# so the cloned repository IS the served site. There is no copy step
+# and therefore no chance of the served files drifting from git.
+#
+# Primary deployment is GitHub Actions (.github/workflows/deploy.yml).
+# These tasks are the manual fallback via the cPanel UI.
+# =============================================================
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/<CPANEL_USER>/btrcwebsite
+    # Directories readable by the web server, files not world-writable.
+    - /bin/find $DEPLOYPATH/public -type d -exec chmod 755 {} \;
+    - /bin/find $DEPLOYPATH/public -type f -exec chmod 644 {} \;
+    - /bin/echo "Deployed $(/usr/bin/git -C $DEPLOYPATH rev-parse --short HEAD) at $(/bin/date)"
+
+    # ---- Enable the block below at the Laravel migration ----
+    # - /usr/local/bin/composer install --no-dev --optimize-autoloader -d $DEPLOYPATH
+    # - /usr/local/bin/php $DEPLOYPATH/artisan migrate --force
+    # - /usr/local/bin/php $DEPLOYPATH/artisan config:cache
+    # - /usr/local/bin/php $DEPLOYPATH/artisan route:cache
+    # - /usr/local/bin/php $DEPLOYPATH/artisan view:cache
+    # - /bin/chmod -R 775 $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache

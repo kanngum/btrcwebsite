@@ -1,0 +1,79 @@
+name: Deploy to Production
+
+# Uni B Agency CI/CD SOP §5 — GitHub Actions CI/CD Pipeline
+#
+# Fires only when code reaches `main`. Code reaches `main` only via an
+# approved Pull Request from `develop` (SOP §2). Nobody pushes to `main`.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:        # Manual re-deploy from the Actions tab
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false # Never interrupt a deploy that is mid-flight
+
+jobs:
+  deploy:
+    name: SSH Deploy to cPanel
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e   # Stop on any error (SOP §5.3)
+
+            cd ~/btrcwebsite
+
+            # Force-align server with GitHub (discards any server-side drift)
+            git fetch origin
+            git reset --hard origin/main
+
+            # Remove files that were deleted in git but linger on disk
+            git clean -fd
+
+            # Normalise permissions on the served directory
+            find public -type d -exec chmod 755 {} \;
+            find public -type f -exec chmod 644 {} \;
+
+            # ================================================================
+            # LARAVEL MIGRATION — uncomment this block when the site becomes
+            # a Laravel app. Nothing above needs to change: the document root
+            # already points at public/, which is where Laravel serves from.
+            # ================================================================
+            # /usr/local/bin/composer install --no-dev --optimize-autoloader
+            # php artisan down --allow=127.0.0.1
+            # php artisan migrate --force
+            # php artisan config:cache
+            # php artisan route:cache
+            # php artisan view:cache
+            # php artisan storage:link --force
+            # chmod -R 775 storage bootstrap/cache
+            # php artisan up
+
+            echo "Deployment complete: $(git rev-parse --short HEAD)"
+
+      - name: Verify site responds
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          set -e
+          if [ -z "$SITE_URL" ]; then
+            echo "::warning::Repository variable SITE_URL is not set — skipping health check."
+            exit 0
+          fi
+          code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 30 "$SITE_URL")
+          echo "Live site returned HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "::error::Deploy succeeded but $SITE_URL returned HTTP $code."
+            exit 1
+          fi

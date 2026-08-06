@@ -7,16 +7,20 @@
 #
 # NOTE ON STRATEGY:
 # The subdomain's Document Root should point at
-#   /home/<CPANEL_USER>/btrc_app/public
+#   $HOME/btrc_app/public
 # so the cloned repository IS the served site. There is no copy step
 # and therefore no chance of the served files drifting from git.
+#
+# $HOME is used rather than a hardcoded /home/<user> path: cPanel runs
+# these tasks as the account owner, so the username never has to be
+# committed to the repository.
 #
 # Primary deployment is GitHub Actions (.github/workflows/deploy.yml).
 # These tasks are the manual fallback via the cPanel UI.
 # =============================================================
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/<CPANEL_USER>/btrc_app
+    - export DEPLOYPATH=$HOME/btrc_app
     # Directories readable by the web server, files not world-writable.
     - /bin/find $DEPLOYPATH/public -type d -exec chmod 755 {} \;
     - /bin/find $DEPLOYPATH/public -type f -exec chmod 644 {} \;

@@ -42,7 +42,7 @@ let apiMode = false;
                 { name: 'applyLink', label: 'Application Page Link (optional)', type: 'text', required: false }
             ]
         },
-        news: {
+news: {
             label: 'News Post',
             fields: [
                 { name: 'title', label: 'Title', type: 'text', required: true },
@@ -52,6 +52,16 @@ let apiMode = false;
                 { name: 'image', label: 'Image Path (e.g. images/xxx.jpg)', type: 'text', required: false },
                 { name: 'summary', label: 'Summary', type: 'textarea', required: true },
                 { name: 'link', label: 'Read More Link (optional)', type: 'text', required: false }
+            ]
+        },
+        team: {
+            label: 'Team Member',
+            fields: [
+                { name: 'name', label: 'Full Name', type: 'text', required: true },
+                { name: 'role', label: 'Role (e.g. Founder, Researcher)', type: 'text', required: true },
+                { name: 'qualifications', label: 'Qualifications', type: 'text', required: false },
+                { name: 'image', label: 'Photo Path (e.g. images/xxx.jpg)', type: 'text', required: false },
+                { name: 'bio', label: 'Biography', type: 'textarea', required: false }
             ]
         }
     };
@@ -93,7 +103,7 @@ let apiMode = false;
         if (data) {
             return JSON.parse(data);
         }
-        data = (window.BTRC_DATA || { projects: [], programs: [], news: [] });
+data = (window.BTRC_DATA || { projects: [], programs: [], news: [], team: [] });
         localStorage.setItem('btrc_admin_data', JSON.stringify(data));
         return data;
     }
@@ -144,9 +154,9 @@ function authHeaders() {
 
     /* ---------- UI rendering ---------- */
     function listEl(item, type) {
-        const schema = SCHEMAS[type];
+const schema = SCHEMAS[type];
         const title = item.name || item.title || '';
-        const desc = item.description || item.summary || '';
+        const desc = item.description || item.summary || item.bio || '';
         const img = item.image ? '<img src="' + item.image + '" alt="">' : '<span>No image</span>';
 
         const div = document.createElement('div');

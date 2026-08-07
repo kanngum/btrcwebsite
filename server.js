@@ -1,6 +1,6 @@
 /* ================================================
    BTRC - Backend Server (Node.js + Express)
-   Provides REST APIs for Projects, Programs, News
+   Provides REST APIs for Projects, Programs, News, Team
    ================================================ */
 const express = require('express');
 const cors = require('cors');
@@ -9,6 +9,7 @@ const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const multer = require('multer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,8 +32,8 @@ function readDB() {
   try {
     const raw = fs.readFileSync(DB_FILE, 'utf8');
     return JSON.parse(raw);
-  } catch (err) {
-    return { projects: [], programs: [], news: [] };
+} catch (err) {
+    return { projects: [], programs: [], news: [], team: [] };
   }
 }
 
@@ -113,11 +114,49 @@ function createCrudRoutes(resource) {
   });
 }
 
-['projects', 'programs', 'news'].forEach(createCrudRoutes);
+['projects', 'programs', 'news', 'team'].forEach(createCrudRoutes);
 
 // GET full dataset (used by admin dashboard)
 app.get('/api/data', (req, res) => {
   res.json(readDB());
+});
+
+/* ================================================
+   IMAGE UPLOAD ENDPOINT
+   Saves an uploaded image to /uploads and returns
+   the public URL (e.g. /uploads/xxx.jpg)
+   ================================================ */
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname) || '.jpg';
+    cb(null, Date.now() + '-' + Math.round(Math.random() * 1e9) + ext);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+  fileFilter: (req, file, cb) => {
+    if (/image\/(jpeg|png|gif|webp|svg)/.test(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  }
+});
+
+app.post('/api/upload', requireAuth, upload.single('image'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'No file uploaded' });
+  }
+  const url = '/uploads/' + req.file.filename;
+  res.json({ success: true, url });
 });
 
 /* ================================================

@@ -58,6 +58,8 @@
 - [x] **Contact form now sends to btrcbambili@gmail.com**: added `/api/contact` endpoint (Nodemailer) in server.js; frontend `js/script.js` posts to the API and falls back to a `mailto:` link when SMTP isn't configured or the server is unreachable
 - [x] **Verified contact endpoint**: `/api/contact` returns `{ success:false, mailtoFallback:true }` when SMTP unset (frontend then uses mailto), and health check returns OK on the restarted server
 - [x] **Documented SMTP setup** in README (SMTP_HOST/PORT/USER/PASS/SECURE/CONTACT_TO env vars, Gmail app password)
+- [x] **Added Team management to admin panel**: new "Team" nav tab + `tab-team` panel in admin.html, `team` schema (name, role, qualifications, image, bio) in js/admin.js, list rendering shows `bio`, `/api/team` CRUD routes + team data seed in server.js/data/db.json/js/data.js
+- [x] **Verified Team endpoint**: `/api/team` returns seeded team members (Founder, Co-Founder, + test entry); server restarted with new routes (PID confirmed listening on :3000)
 
 ## In Progress [🔄]
 - [ ] (Nothing currently in progress)

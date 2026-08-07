@@ -197,5 +197,31 @@
       "summary": "FSDFHK",
       "link": "HGLHHK"
     }
+  ],
+  "team": [
+    {
+      "id": 1,
+      "name": "Engr Ngum Cendres Kan",
+      "role": "Founder",
+      "qualifications": "MSc, MEng, MBA, BEng",
+      "image": "images/kan founder.jpeg",
+      "bio": "Engr Ngum Cendres Kan is a distinguished engineer, researcher, and entrepreneur with extensive experience in technology development and education."
+    },
+    {
+      "id": 2,
+      "name": "Mr Taah Mathew",
+      "role": "Co-Founder",
+      "qualifications": "",
+      "image": "images/my stamp.jpeg",
+      "bio": "Mr Taah Mathew is a co-founder of BTRC, helping drive the center research and innovation initiatives."
+    },
+    {
+      "id": 3,
+      "name": "NEW",
+      "role": "CTO",
+      "qualifications": "MENG CEND TEDS",
+      "image": "HKL",
+      "bio": "FHDHDJ"
+    }
   ]
 }

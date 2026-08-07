@@ -367,19 +367,49 @@ function initFormValidation() {
         });
         
         if (isValid) {
-            // Show success message
+            const name = (this.querySelector('#name') || {}).value || '';
+            const email = (this.querySelector('#email') || {}).value || '';
+            const subject = (this.querySelector('#subject') || {}).value || '';
+            const message = (this.querySelector('#message') || {}).value || '';
+
             const formSuccess = this.querySelector('.form-success');
-            if (formSuccess) {
-                formSuccess.classList.add('show');
-                
-                // Reset form
-                this.reset();
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    formSuccess.classList.remove('show');
-                }, 5000);
-            }
+            const showSuccess = () => {
+                if (formSuccess) {
+                    formSuccess.classList.add('show');
+                    this.reset();
+                    setTimeout(() => formSuccess.classList.remove('show'), 6000);
+                }
+            };
+
+            // Use the mailto fallback when the server can't send (SMTP unconfigured/unreachable)
+            const useMailto = () => {
+                const fullSubject = 'Website Contact: ' + subject;
+                const body = 'Name: ' + name + '\r\nEmail: ' + email + '\r\n\r\n\r\n' + message;
+                const mailto = 'mailto:btrcbambili@gmail.com?subject=' +
+                    encodeURIComponent(fullSubject) +
+                    '&body=' + encodeURIComponent(body);
+                window.location.href = mailto;
+                showSuccess();
+            };
+
+            // Try the backend API first for fully automated sending (no mail client needed)
+            fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, subject, message })
+            })
+            .then(res => res.json().catch(() => ({ success: false })))
+            .then(data => {
+                if (data && data.success) {
+                    showSuccess();
+                } else {
+                    useMailto();
+                }
+            })
+            .catch(() => {
+                // Server unreachable (e.g. opened as file://) -> fall back to mailto
+                useMailto();
+            });
         }
     });
     
@@ -439,15 +469,49 @@ function initNewsletter() {
         const emailInput = this.querySelector('input[type="email"]');
         
         if (emailInput && emailInput.value.trim()) {
-            // Show success (in real scenario, this would send to server)
-            alert('Thank you for subscribing to our newsletter!');
-            emailInput.value = '';
+            // Send newsletter subscription to btrcbambili@gmail.com
+            const subject = encodeURIComponent('Newsletter Subscription - BTRC');
+            const body = encodeURIComponent('Please subscribe this email to the BTRC newsletter:\n\nEmail: ' + emailInput.value.trim());
+            window.location.href = 'mailto:btrcbambili@gmail.com?subject=' + subject + '&body=' + body;
+            
+            // Show feedback
+            const btn = this.querySelector('button');
+            const original = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.innerHTML = '✓';
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    emailInput.value = '';
+                }, 2000);
+            }
         }
     });
 }
 
 // Initialize newsletter
 document.addEventListener('DOMContentLoaded', initNewsletter);
+
+/* ================================================
+   MOBILE FOOTER ACCORDION
+   ================================================ */
+function initFooterAccordion() {
+    const toggles = document.querySelectorAll('.footer-accordion-toggle');
+    
+    if (toggles.length === 0) return;
+    
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const column = this.closest('.footer-column');
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            
+            column.classList.toggle('open', !expanded);
+            this.setAttribute('aria-expanded', !expanded ? 'true' : 'false');
+        });
+    });
+}
+
+// Initialize footer accordion
+document.addEventListener('DOMContentLoaded', initFooterAccordion);
 
 /* ================================================
    PAGINATION

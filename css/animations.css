@@ -138,10 +138,10 @@
 
 @keyframes glow {
     0%, 100% {
-        box-shadow: 0 0 5px rgba(13, 148, 136, 0.3);
+        box-shadow: 0 0 5px rgba(99, 102, 241, 0.3);
     }
     50% {
-        box-shadow: 0 0 20px rgba(13, 148, 136, 0.6);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
     }
 }
 
@@ -239,7 +239,7 @@
 }
 
 .glow-hover:hover {
-    box-shadow: 0 0 20px rgba(13, 148, 136, 0.4);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
 }
 
 /* Shimmer Loading Effect */

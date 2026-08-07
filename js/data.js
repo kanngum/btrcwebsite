@@ -1,0 +1,34 @@
+/* ================================================
+   BTRC - Fallback Data (used when API unavailable,
+   e.g. static GitHub Pages hosting)
+   Shares same structure as data/db.json
+   ================================================ */
+window.BTRC_DATA = {
+  projects: [
+    { id: 1, name: "AI-Powered Disease Detection", category: "ai", categoryLabel: "Artificial Intelligence", image: "images/Ai.jpg", description: "Machine learning models for early detection of plant diseases using image recognition.", detailsLink: "" },
+    { id: 2, name: "Smart Agriculture System", category: "iot", categoryLabel: "IoT", image: "images/smart-farming-smart-agriculture-iot.webp", description: "IoT-based monitoring for optimizing crop yields through real-time data analysis.", detailsLink: "" },
+    { id: 3, name: "Secure Data Transmission", category: "cybersecurity", categoryLabel: "Cybersecurity", image: "images/secure data transmission.jpg", description: "Advanced encryption protocols for secure data in low-connectivity environments.", detailsLink: "" },
+    { id: 4, name: "Health Analytics Platform", category: "data", categoryLabel: "Data Science", image: "images/datascience.jpeg", description: "Data-driven insights for improving healthcare delivery and patient outcomes.", detailsLink: "" },
+    { id: 5, name: "Natural Language Processing", category: "ai", categoryLabel: "Artificial Intelligence", image: "images/Ai.jpg", description: "Developing NLP models for local languages to improve digital accessibility.", detailsLink: "" },
+    { id: 6, name: "Mobile Banking App", category: "software", categoryLabel: "Software Engineering", image: "images/blockchain.webp", description: "Secure and user-friendly mobile banking solution for unbanked populations.", detailsLink: "" },
+    { id: 7, name: "Smart Weather Station", category: "iot", categoryLabel: "IoT", image: "images/Smart_Farming_image_shutterstock_s.jpg", description: "Low-cost IoT devices for accurate weather monitoring in rural areas.", detailsLink: "" },
+    { id: 8, name: "Threat Detection System", category: "cybersecurity", categoryLabel: "Cybersecurity", image: "images/Cybersecurity_certiprof.webp", description: "AI-powered security system for identifying and preventing cyber threats.", detailsLink: "" },
+    { id: 9, name: "Market Intelligence Tool", category: "data", categoryLabel: "Data Science", image: "images/datascience.jpeg", description: "Predictive analytics for helping small businesses make data-driven decisions.", detailsLink: "" }
+  ],
+  programs: [
+    { id: 1, name: "Research Internships", image: "images/Student-Internship.jpg", description: "Gain hands-on research experience working alongside our expert researchers on cutting-edge technology projects.", applyLink: "contact.html" },
+    { id: 2, name: "Student Research Program", image: "images/Research-Methods_without-logo.jpg", description: "Collaborative research opportunities for undergraduate and graduate students seeking to advance their academic careers.", applyLink: "contact.html" },
+    { id: 3, name: "Technology Workshops", image: "images/tech Workshop.jpeg", description: "Hands-on workshops covering emerging technologies, programming, and practical skills development.", applyLink: "contact.html" },
+    { id: 4, name: "Innovation Labs", image: "images/Innovation Lab.jpeg", description: "Collaborative spaces for innovators to develop, prototype, and test new technology solutions.", applyLink: "contact.html" },
+    { id: 5, name: "Technology Training", image: "images/tech-workshop-scene-stockcake.webp", description: "Comprehensive training programs in software development, data science, and other tech domains.", applyLink: "contact.html" },
+    { id: 6, name: "Seminars & Conferences", image: "images/Research-Methods_without-logo.jpg", description: "Regular seminars and conferences featuring industry experts and thought leaders.", applyLink: "contact.html" }
+  ],
+  news: [
+    { id: 1, title: "New AI Research Lab Opens at BTRC", category: "Research", date: "2026-01-15", author: "BTRC Team", image: "images/Ai.jpg", summary: "Bamenda Technological Research Center launches state-of-the-art AI laboratory to advance machine learning research in Cameroon and the Central African region.", link: "" },
+    { id: 2, title: "International Partnership Announced", category: "Partnership", date: "2026-01-10", author: "Communications", image: "images/blockchain.webp", summary: "BTRC partners with leading universities across Africa and Europe to expand research collaboration and knowledge sharing opportunities.", link: "" },
+    { id: 3, title: "Annual Tech Conference 2026", category: "Event", date: "2026-01-05", author: "Events Team", image: "images/tech Workshop.jpeg", summary: "Join us for the upcoming technology conference featuring industry leaders, researchers, and innovators from across the continent.", link: "" },
+    { id: 4, title: "BTRC Wins Regional Innovation Award", category: "Achievement", date: "2025-12-20", author: "Communications", image: "images/Ai.jpg", summary: "Bamenda Technological Research Center receives prestigious award for outstanding contribution to technological innovation in the region.", link: "" },
+    { id: 5, title: "Startup Incubator Graduates First Cohort", category: "Startup", date: "2025-12-15", author: "Innovation Lab", image: "images/Innovation Lab.jpeg", summary: "Five tech startups graduate from BTRC's incubator program, ready to transform industries with innovative solutions.", link: "" },
+    { id: 6, title: "Breakthrough in IoT Agriculture Research", category: "Research", date: "2025-12-10", author: "Research Team", image: "images/smart-farming-smart-agriculture-iot.webp", summary: "BTRC researchers develop innovative IoT solution for smart farming, potentially revolutionizing agriculture in the region.", link: "" }
+  ]
+};

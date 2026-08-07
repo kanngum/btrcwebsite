@@ -5,17 +5,17 @@
 
 /* CSS Variables - Design System */
 :root {
-    /* Colors */
-    --primary: #0a2540;
-    --primary-dark: #061829;
-    --primary-light: #1a3a5c;
+    /* Colors - Vivid Indigo Palette */
+    --primary: #4F46E5;
+    --primary-dark: #3730A3;
+    --primary-light: #6366F1;
     --secondary: #ffffff;
-    --neutral: #f4f6f8;
-    --neutral-dark: #e2e8f0;
+    --neutral: #EEF2FF;
+    --neutral-dark: #E0E7FF;
     --neutral-medium: #94a3b8;
-    --accent: #0d9488;
-    --accent-light: #14b8a6;
-    --accent-dark: #0f766e;
+    --accent: #6366F1;
+    --accent-light: #818CF8;
+    --accent-dark: #4338CA;
     --text-dark: #1e293b;
     --text-medium: #475569;
     --text-light: #64748b;
@@ -46,9 +46,9 @@
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    --shadow-accent: 0 4px 14px 0 rgba(13, 148, 136, 0.3);
+    --shadow-accent: 0 4px 14px 0 rgba(79, 70, 229, 0.35);
     
     /* Transitions */
     --transition-fast: 0.15s ease;
@@ -202,9 +202,17 @@ ul {
     gap: var(--spacing-xs);
 }
 
-.navbar-logo img {
+.navbar-logo img,
+.footer-logo img {
     width: 40px;
     height: 40px;
+    object-fit: contain;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
 .navbar-logo span {
@@ -288,8 +296,8 @@ ul {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -325,11 +333,11 @@ ul {
     font-size: 0.9rem;
     font-weight: 600;
     letter-spacing: 2px;
-    text-transform: uppercase;
+text-transform: uppercase;
     color: var(--accent);
     margin-bottom: var(--spacing-md);
     padding: var(--spacing-md) var(--spacing-md);
-    background: rgba(13, 148, 136, 0.15);
+    background: rgba(99, 102, 241, 0.15);
     border-radius: var(--radius-full);
 }
 
@@ -429,7 +437,7 @@ ul {
     position: absolute;
     width: 200px;
     height: 200px;
-    border: 2px solid rgba(13, 148, 136, 0.3);
+    border: 2px solid rgba(129, 140, 248, 0.35);
     border-radius: var(--radius-full);
     animation: pulse 3s ease-in-out infinite;
 }
@@ -439,7 +447,7 @@ ul {
     position: absolute;
     width: 300px;
     height: 300px;
-    border: 2px solid rgba(13, 148, 136, 0.2);
+    border: 2px solid rgba(129, 140, 248, 0.25);
     border-radius: var(--radius-full);
     animation: pulse 3s ease-in-out infinite 1s;
 }
@@ -517,10 +525,18 @@ ul {
     position: absolute;
     top: 0;
     left: 0;
-    width: 4px;
+    width: 100%;
     height: 100%;
-    background: var(--accent);
-    transform: scaleY(0);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: var(--transition-base);
+    z-index: 0;
+}
+
+.research-card > * {
+    position: relative;
+    z-index: 1;
     transition: var(--transition-base);
 }
 
@@ -530,7 +546,16 @@ ul {
 }
 
 .research-card:hover::before {
-    transform: scaleY(1);
+    transform: scaleX(1);
+}
+
+.research-card:hover h3,
+.research-card:hover .research-link {
+    color: var(--secondary);
+}
+
+.research-card:hover p {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .research-icon {
@@ -542,6 +567,10 @@ ul {
     align-items: center;
     justify-content: center;
     margin-bottom: var(--spacing-md);
+}
+
+.research-card:hover .research-icon {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .research-icon svg {
@@ -595,9 +624,9 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(circle at 10% 90%, rgba(13, 148, 136, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 90% 10%, rgba(13, 148, 136, 0.08) 0%, transparent 40%);
+background: 
+        radial-gradient(circle at 10% 90%, rgba(129, 140, 248, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(129, 140, 248, 0.1) 0%, transparent 40%);
     pointer-events: none;
 }
 
@@ -1089,9 +1118,9 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(13, 148, 136, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.1) 0%, transparent 50%);
+background: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -1522,9 +1551,9 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(circle at 10% 90%, rgba(13, 148, 136, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 90% 10%, rgba(13, 148, 136, 0.1) 0%, transparent 40%);
+background: 
+        radial-gradient(circle at 10% 90%, rgba(129, 140, 248, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 90% 10%, rgba(129, 140, 248, 0.1) 0%, transparent 40%);
     pointer-events: none;
 }
 
@@ -1895,7 +1924,7 @@ ul {
 .contact-icon {
     width: 50px;
     height: 50px;
-    background: var(--neutral);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
@@ -1906,7 +1935,7 @@ ul {
 .contact-icon svg {
     width: 22px;
     height: 22px;
-    fill: var(--accent);
+    fill: var(--secondary);
 }
 
 .contact-item h4 {
@@ -1925,6 +1954,135 @@ ul {
 
 .contact-social .footer-social {
     justify-content: flex-start;
+}
+
+/* Colored contact social icons (on white background) */
+.contact-social .footer-social a {
+    background: var(--neutral);
+    border: 1px solid var(--neutral-dark);
+    color: var(--primary);
+}
+
+.contact-social .footer-social svg {
+    fill: var(--primary);
+}
+
+.contact-social .footer-social a:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.contact-social .footer-social a:hover svg {
+    fill: var(--secondary);
+}
+
+/* ================================================
+   SOCIAL PLACEHOLDER (TikTok - coming soon)
+   ================================================ */
+.footer-social a.social-placeholder,
+.contact-social .footer-social a.social-placeholder {
+    opacity: 0.5;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.footer-social a.social-placeholder:hover,
+.contact-social .footer-social a.social-placeholder:hover {
+    background: rgba(129, 140, 248, 0.25);
+    transform: none;
+}
+
+/* ================================================
+   ADMIN GEAR ICON (hidden access)
+   ================================================ */
+.admin-gear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-md);
+    color: var(--text-light);
+    transition: var(--transition-base);
+    opacity: 0.35;
+}
+
+.admin-gear svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.admin-gear:hover {
+    opacity: 1;
+    color: var(--accent);
+    background: var(--neutral);
+}
+
+.navbar-menu .admin-gear::after {
+    display: none;
+}
+
+/* ================================================
+   MOBILE FOOTER ACCORDION
+   ================================================ */
+.footer-column .footer-accordion-toggle {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary);
+    background: none;
+    border: none;
+    padding: var(--spacing-xs) 0;
+    text-align: left;
+}
+
+.footer-accordion-toggle .accordion-icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent);
+    transition: transform var(--transition-base);
+}
+
+.footer-column.open .footer-accordion-toggle .accordion-icon {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 767px) {
+    .footer-column h4 {
+        display: none;
+    }
+
+    .footer-column .footer-accordion-toggle {
+        display: flex;
+    }
+
+    .footer-column {
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .footer-links {
+        margin-top: var(--spacing-xs);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-base);
+    }
+
+    .footer-column.open .footer-links {
+        max-height: 400px;
+    }
+
+    .footer-social {
+        justify-content: flex-start;
+    }
 }
 
 /* Contact Form */

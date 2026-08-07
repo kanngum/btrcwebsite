@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BTRC Admin Dashboard">
+    <title>Admin Dashboard | BTRC</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+    <!-- Login Screen -->
+    <div id="login-screen" class="admin-login">
+        <div class="admin-login-card">
+            <div class="admin-login-logo">
+                <img src="images/btrc transparent bg.png" alt="BTRC Logo" class="logo-img">
+            </div>
+            <h1>BTRC Admin</h1>
+            <p>Enter your admin PIN to continue</p>
+            <form id="login-form">
+                <input type="password" id="pin-input" placeholder="Enter PIN" maxlength="20" required>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p id="login-error" class="login-error"></p>
+            </form>
+            <a href="index.html" class="back-link">&larr; Back to website</a>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="admin-dashboard" style="display:none;">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <img src="images/btrc transparent bg.png" alt="BTRC Logo" class="logo-img">
+                <span>BTRC Admin</span>
+            </div>
+            <nav class="admin-nav">
+                <button class="admin-nav-btn active" data-tab="projects">Projects</button>
+                <button class="admin-nav-btn" data-tab="programs">Programs</button>
+                <button class="admin-nav-btn" data-tab="news">News</button>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <a href="index.html" class="btn btn-outline">View Site</a>
+                <button id="logout-btn" class="btn btn-secondary">Logout</button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-topbar">
+                <h2 id="tab-title">Projects</h2>
+                <button id="add-btn" class="btn btn-primary">+ Add New</button>
+            </header>
+
+            <!-- Projects Tab -->
+            <section id="tab-projects" class="admin-tab active">
+                <div id="projects-list" class="admin-list"></div>
+            </section>
+
+            <!-- Programs Tab -->
+            <section id="tab-programs" class="admin-tab">
+                <div id="programs-list" class="admin-list"></div>
+            </section>
+
+            <!-- News Tab -->
+            <section id="tab-news" class="admin-tab">
+                <div id="news-list" class="admin-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Add/Edit -->
+    <div id="modal" class="admin-modal" style="display:none;">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h3 id="modal-title">Add Item</h3>
+                <button id="modal-close" class="modal-close">&times;</button>
+            </div>
+            <form id="item-form" class="admin-form">
+                <div id="form-fields"></div>
+                <div class="admin-form-actions">
+                    <button type="button" id="modal-cancel" class="btn btn-outline">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="admin-toast"></div>
+
+    <script src="js/render.js"></script>
+    <script>
+        // Detect if API available; if not, use localStorage fallback
+        window.BTRC_ADMIN_CONFIG = {
+            PIN: 'BTRC1234',
+            API_BASE: '/api'
+        };
+    </script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
